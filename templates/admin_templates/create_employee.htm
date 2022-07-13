@@ -1,0 +1,174 @@
+{% extends 'admin_templates/base.htm' %}
+{% load static %}
+
+{% block title %} Create Employee {% endblock title %}
+
+{% block page_title %} Create Employee {% endblock page_title %}
+
+{% block main_content %}
+ <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
+              <!-- general form elements -->
+              <div class="card card-primary">
+                <div class="card-header">
+                  <h3 class="card-title">Create New Employee</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form role="form" action = "{% url 'create_employee_save' %}" method = "POST" enctype="multipart/form-data"> {% csrf_token %}
+                  <div class="card-body">
+
+                    <div class="form-group">
+                      <label for="email">Email address</label>
+                      <input type="email" class="form-control" id="email" placeholder="Enter email" name = "email" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" placeholder="Username" name = "username" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstname">First Name</label>
+                        <input type="text" class="form-control" id="firstname" placeholder="First Name" name = "firstname">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" class="form-control" id="lastname" placeholder="Last Name" name = "lastname">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="Address" name = "address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select class = "form-control" name="gender">
+                            <option> Male </option>
+                            <option> Female </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Cell Phone</label>
+                        <input type="text" class="form-control" id="phone" placeholder="Phone" name = "phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name = "password">
+                    </div>
+
+                  </div>
+                  <!-- /.card-body -->
+  
+                  <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                  </div>
+                    <div class = "form-group">
+                        {% if messages %}
+                            <div class = "col-12"> 
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <div style = "margin-top:10px;" class = "alert alert-danger"> 
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                    {% if message.tags == 'success' %}
+                                        <div style = "margin-top:10px;" class = "alert alert-success"> 
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %} 
+                    </div>
+                </form>
+              </div>
+              <!-- /.card -->
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+{% endblock main_content %}
+
+{% block custom_script %} 
+
+<script> 
+$(document).ready(function(){
+    $("#email").keyup(function(){
+        var email =  $(this).val();
+        if(email != ""){
+            $.ajax({
+                url:"{% url 'check_email' %}",
+                type:"POST",
+                data:{email:email}
+
+            })
+
+            .done(function(response){
+                if(response == "True"){
+                    console.log(" Email Not Available ")
+                    $(".email-error").remove()
+                    $("<span class = 'email-error' style = 'padding:6px; color:red; font-weight:bold; '> Email not Available </span>").insertAfter("#email")
+                } else {
+                    console.log(" Email Available ")
+                    $(".email-error").remove()
+                    $("<span class = 'email-error' style = 'padding:6px; color:green; font-weight:bold; '> Email Available </span>").insertAfter("#email")
+                }
+            })
+            .fail(function(){
+                console.log("Failed")
+
+            })
+        } else{
+            $(".email-error").remove()
+
+        }
+        
+
+    })
+
+    $("#username").keyup(function(){
+
+        var username =  $(this).val();
+        if(username != ""){
+            $.ajax({
+                url:"{% url 'check_username' %}",
+                type:"POST",
+                data:{username:username}
+
+            })
+
+            .done(function(response){
+                if(response == "True"){
+                    console.log(" Username Not Available ")
+                    $(".username-error").remove()
+                    $("<span class = 'username-error' style = 'padding:6px; color:red; font-weight:bold; '> Username not Available </span>").insertAfter("#username")
+                } else {
+                    console.log(" Username Available ")
+                    $(".username-error").remove()
+                    $("<span class = 'username-error' style = 'padding:6px; color:green; font-weight:bold; '> Username Available </span>").insertAfter("#username")
+                }
+            })
+            .fail(function(){
+                console.log("Failed")
+
+            })  
+        } else {
+            $(".username-error").remove()
+        }      
+
+        })
+
+ })
+</script>
+
+{% endblock custom_script %}

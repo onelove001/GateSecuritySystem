@@ -1,0 +1,69 @@
+{% extends 'core/base.html' %}
+{% load gate %}
+{% block title %} Manage Persons {% endblock %}
+
+{% block content %}
+ <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid mt-5">
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-12">
+              <div class="card mt-5">
+                <div class="card-header bg-secondary">
+                  <h3 class="card-title text-light">Manage Persons</h3>
+                  <hr>
+                  <div class="card-tools">
+                    <form action="" method="GET">
+                      <div class="input-group input-group-sm" style="width:100%;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search by: Name, Person_id, Car Number ">
+                        <div class="input-group-append">
+                          <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body table-responsive p-0">
+                  <table class="table table-hover text-nowrap table-bordered">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Person ID</th>
+                        <th>Car Model</th>
+                        <th>Car Number</th>
+                        <th>Gate Name</th>
+                        <th>Gate ID</th>
+                        <th>Created</th>
+                        <th>Perform Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for person in persons %}
+                      <tr>
+                        <td>{{person.id}}</td>
+                        <td>{{person.full_name}}</td>
+                        <td>{{person.person_id}}</td>
+                        <td>{{person.car_model_name}}</td>
+                        <td>{{person.car_number}}</td>
+                        <td>{{person.gate_id.gate_name}}</td>
+                        <td>{{person.gate_id.gate_unique_id|gate_tag}}</td>
+                        <td>{{person.created_at}}</td>
+                        <td><a href="{% url 'edit_person' person.person_id %}" class="btn btn-warning">Update Person</a></td>
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+          </div>
+          <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+{% endblock %}

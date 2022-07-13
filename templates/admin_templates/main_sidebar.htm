@@ -1,0 +1,110 @@
+{% load static %} 
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a href="{% url 'admin_dashboard' %}" class="brand-link">
+    <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+    <span class="brand-text font-weight-light">{{user.username}}</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="{% static 'dist/img/user2-160x160.jpg' %}" class="img-circle elevation-2" alt="User Image">
+      </div>
+      <div class="info">
+        <a href="" class="d-block"> {{user.username}} </a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <li class="nav-item">
+          {% url 'admin_dashboard' as admin_dashboard %}
+          <a href="{{ admin_dashboard }}" class="nav-link {% if request.path == admin_dashboard %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Dashboard
+              <span class="right badge badge-info">DA</span>
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          {% url 'create_admin' as create_admin %}
+          <a href="{{ create_admin }}" class="nav-link {% if request.path == create_admin %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Create Admin
+              <span class="right badge badge-success"> CA </span>
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          {% url 'create_employee' as create_employee %}
+          <a href="{{ create_employee }}" class="nav-link {% if request.path == create_employee %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Create Employee
+              <span class="right badge badge-danger"> CE </span>
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          {% url 'manage_employees' as manage_employees %}
+          {% url 'update_employee' employee_id=id as update_employee %}
+          <a href="{{ manage_employees }}" class="nav-link {% if request.path == manage_employee %} active {% endif %} {% if request.path == update_employee %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Manage Employee
+              <span class="right badge badge-warning">ME</span>
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          {% url 'manage_persons_admin' as manage_persons_admin %}
+          <a href="{{ manage_persons_admin }}" class="nav-link {% if request.path == manage_persons_admin %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Manage Persons
+              <span class="right badge badge-secondary">MP</span>
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          {% url 'create_gate' as create_gate %}
+          <a href="{{ create_gate }}" class="nav-link {% if request.path == create_gate %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Create Gate
+              <span class="right badge badge-primary"> CG </span>
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          {% url 'manage_gates' as manage_gates %}
+          {% url 'update_gate' gate_id=id as update_gate %}
+          <a href="{{ manage_gates }}" class="nav-link {% if request.path == manage_gates %} active {% endif %} {% if request.path == update_gate %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              Gate Management
+              <span class="right badge badge-light">GM</span>
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
